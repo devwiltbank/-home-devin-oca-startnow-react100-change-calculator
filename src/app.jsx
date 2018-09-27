@@ -15,54 +15,64 @@ class App extends Component {
       dimes: '',
       nickels: '',
       pennies: '',
+    
     };
-    this.handleClick   = this.handleClick.bind(this);
-    this.handleChange  = this.handleChange.bind(this);
+    this.handleChange   = this.handleChange.bind(this);
   }
-     
-    handleChange(e) {
-      console.log('calc initiated');
-      var due             = parseInt(this.state.amountDue) * 100; 
-      var recd            = parseInt(this.state.amountReceived) * 100;
-      var totalMoneyDue   = (recd - due) // keep in pennies
-      var wholeDollars    = Math.floor(totalMoneyDue / 100) * 100 // keep in pennies
-      var changeOnlyDue   = (totalMoneyDue - wholeDollars);   // in pennies
-      var quarters        = Math.floor(changeOnlyDue / 25);
-          changeOnlyDue  -= quarters * 25;    
-      var dimes           = Math.floor(changeOnlyDue / 10);
-          changeOnlyDue  -= dimes * 10;
-      var nickels         = Math.floor(changeOnlyDue / 5);         
-          changeOnlyDue  -= nickels * 5;
-      var pennies         = Math.floor(changeOnlyDue / 1);        
-          changeOnlyDue  -= pennies * 1;
-      
-      this.setState = {
-        amountDue: due,
-        amountReceived: recd,
-        changeDue: totalMoneyDue,
-        twenties: '',
-        tens: '',
-        fives: '',
-        ones: '',
-        quarters: quarters,
-        dimes: dimes,
-        nickels: nickels,
-        pennies: pennies,
-      }
-      
-      console.log(due)    
-    
-    }
-    //Code below can be used to make a function instead of using the arrow function on the inputs    
-    //this.setState({ [event.target.name] : +event.target.value });
-    
-    handleClick(e) {
-        e.preventDefault();
-        console.log('button clicked')
-        this.handleChange();
-    }    
+  
+  handleChange(event) {
+    this.setState({
+      [event.target.name] : +event.target.value
+    });   
+  }
 
-    render() {
+    calculate() {
+        var amountDue       =''
+        var amountReceived  =''
+        var changeDue       =''//amountReceived - amountDue;
+        var twenties        =''
+        var tens            =''
+        var fives           =''
+        var ones            =''
+        var quarters        =''
+        var dimes           =''
+        var nickels         =''
+        var pennies         =''
+        console.log('clicked running calculate')
+      
+      // if(amountDue === amountReceived) {
+      //   this.setState({ changeDue : 0 })
+      //   console.log('Enter the amount due');
+      //   return false;
+      // } else {
+      //     if( amountDue > amountReceived ){
+      //       console.log("Danger! You didn't receive enough money.")
+      //     } else {
+      //         if ( changeDue >= 20) {
+              
+      //         }  
+      //       }
+      //   }
+
+
+        this.setState({
+          amountDue: amountDue,
+          amountReceived: amountReceived,
+          changeDue: changeDue,
+          twenties: twenties,
+          tens: tens,
+          fives: fives,
+          ones: ones,
+          quarters: quarters,
+          dimes: dimes,
+          nickels: nickels,
+          pennies: pennies,
+        });    
+      
+    }
+     
+    
+  render() {
     return (
       <div className='container-fluid'>
           <div className='light border-bottom text-light mb-4'>
@@ -82,7 +92,7 @@ class App extends Component {
                     className='w-100'
                     name='amountDue'
                     value={ this.state.amountDue }
-                    onChange={e => this.setState({ amountDue: e.target.value})}
+                    onChange={ this.handleChange }
                   />
                 </div>
                 <div className='card-text mt-2'>
@@ -93,15 +103,16 @@ class App extends Component {
                     className='w-100'
                     name='amountReceived'
                     value={ this.state.amountReceived }
-                    onChange={e => this.setState({ amountReceived: e.target.value})}
+                    onChange={ this.handleChange }
                   />
                 </div>
               </div>
               <div className='card-footer'>
                 <button
                   className='button btn btn-primary text-white w-100'
+                  id='calculateChange'
                   name='submit'
-                  onClick={ this.handleClick }
+                  onClick={ this.calculate}
                 >
                 Calculate
                 </button>
