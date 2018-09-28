@@ -38,7 +38,7 @@ class App extends Component {
     var dimes           =''
     var nickels         =''
     var pennies         =''
-    
+
     if(amountDue === amountReceived) {
       //this.setState({ changeDue : 0 })
       console.log('No change due');
@@ -99,7 +99,7 @@ class App extends Component {
                   <input
                     className='w-100'
                     name='amountDue'
-                    value={ this.state.amountDue }
+                    // value={ this.state.amountDue }
                     onChange={ this.handleChange }
                   />
                 </div>
@@ -110,7 +110,7 @@ class App extends Component {
                   <input
                     className='w-100'
                     name='amountReceived'
-                    value={ this.state.amountReceived }
+                    // value={ this.state.amountReceived }
                     onChange={ this.handleChange }
                   />
                 </div>
