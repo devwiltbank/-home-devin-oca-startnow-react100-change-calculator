@@ -15,9 +15,9 @@ class App extends Component {
       dimes: '',
       nickels: '',
       pennies: '',
-    
     };
     this.handleChange   = this.handleChange.bind(this);
+    this.calculate      = this.calculate.bind(this);
   }
   
   handleChange(event) {
@@ -25,40 +25,51 @@ class App extends Component {
       [event.target.name] : +event.target.value
     });   
   }
-
-    calculate() {
-        var amountDue       =''
-        var amountReceived  =''
-        var changeDue       =''//amountReceived - amountDue;
-        var twenties        =''
-        var tens            =''
-        var fives           =''
-        var ones            =''
-        var quarters        =''
-        var dimes           =''
-        var nickels         =''
-        var pennies         =''
-        console.log('clicked running calculate')
-      
-      // if(amountDue === amountReceived) {
-      //   this.setState({ changeDue : 0 })
-      //   console.log('Enter the amount due');
-      //   return false;
-      // } else {
-      //     if( amountDue > amountReceived ){
-      //       console.log("Danger! You didn't receive enough money.")
-      //     } else {
-      //         if ( changeDue >= 20) {
-              
-      //         }  
-      //       }
-      //   }
-
-
+  
+  calculate() {
+    var amountDue       = this.state.amountDue;
+    var amountReceived  = this.state.amountReceived;
+    var changeDue       = (amountReceived - amountDue) * 100;// in pennies
+    var twenties        =''
+    var tens            =''
+    var fives           =''
+    var ones            =''
+    var quarters        =''
+    var dimes           =''
+    var nickels         =''
+    var pennies         =''
+    
+    if(amountDue === amountReceived) {
+      //this.setState({ changeDue : 0 })
+      console.log('No change due');
+    } else {
+        if( amountDue > amountReceived ){
+          //this.setState({ changeDue : 0})
+          console.log("Danger! You didn't receive enough money.")
+        } else {
+                  changeDue   = Math.round(changeDue);
+              var twenties    = Math.trunc(changeDue / 2000);
+                  changeDue  -= twenties * 2000;
+              var tens        = Math.trunc(changeDue / 1000);
+                  changeDue  -= tens * 1000;
+              var fives       = Math.trunc(changeDue / 500);
+                  changeDue  -= fives * 500;
+              var ones        = Math.trunc(changeDue / 100);
+                  changeDue  -= ones * 100;
+              var quarters    = Math.trunc(changeDue / 25);
+                  changeDue  -= quarters * 25;    
+              var dimes       = Math.trunc(changeDue / 10);
+                  changeDue  -= dimes * 10;
+              var nickels     = Math.trunc(changeDue / 5);         
+                  changeDue  -= nickels * 5;
+              var pennies     = changeDue;        
+                  changeDue  -= pennies;
+          }
+      }
         this.setState({
           amountDue: amountDue,
           amountReceived: amountReceived,
-          changeDue: changeDue,
+          changeDue: amountReceived - amountDue,
           twenties: twenties,
           tens: tens,
           fives: fives,
@@ -68,19 +79,16 @@ class App extends Component {
           nickels: nickels,
           pennies: pennies,
         });    
+  }
       
-    }
-     
-    
   render() {
     return (
       <div className='container-fluid'>
           <div className='light border-bottom text-light mb-4'>
             <h1>Change Calculator</h1>
           </div> 
-        
         <div className='row'>
-        <div className='col-sm-4'>
+          <div className='col-sm-4'>
             <div className='card'>
               <h6 className='card-header text-secondary'>Enter Information</h6>
               <div className='card-body'>
@@ -127,7 +135,7 @@ class App extends Component {
                 name='changeDue'
                 value={ this.state.changeDue }
               >
-                The total change due is ${this.state.changeDue}
+                The total change due is ${ this.state.changeDue }
               </div>
               <div className='container'>
                 <div className='row mb-3'>
